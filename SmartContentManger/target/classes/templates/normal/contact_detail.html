@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{normal/base::Layout(~{::section})}">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+
+
+    <title>User dashBoard</title>
+  </head>
+  <body>
+    <section>
+		<h2>here is showing personal contact detail</h2>
+		<div class="card mr-3 ml-3"th:if="${contact}">
+			<div class="card-body">
+			  <div class="container text-center">	
+                 <img style="height:500p; width:200px;" src="" class="my_picture" th:src="@{'/Image/'+${contact.image}}" alt="profile photo"/>
+                   <h3 class="mt-3" ><span th:text="${contact.name}"></span> <span th:text="${contact.secondname}"></span></h3>
+                   
+                   <table class="table">
+					  <thead>
+					    <tr>
+					      <th scope="col">#Id</th>
+					      <th scope="col">SCM2020_<span th:text="${contact.Cid}"></span></th>
+					     
+					    </tr>
+					  </thead>
+					  <tbody>
+					    <tr>
+					      <th scope="row">Email</th>
+					      <td><span th:text="${contact.email}"></span></td>
+					      
+					    </tr>
+					    <tr>
+					      <th scope="row">Phone</th>
+					      <td><span th:text="${contact.phone}"></span></td>
+					      
+					    </tr>
+					    <tr>
+					      <th scope="row">work</th>
+					      <td><span th:text="${contact.work}"></span></td>
+					      
+					    </tr>
+					  </tbody>    
+					</table>
+					<div class="description mt-3">
+							 <th:block th:utext="${contact.description}"></th:block>
+					</div>	
+					<div class="conatiner mt-3">
+                         <form  th:action="@{'/user/update_contact/'+${contact.Cid}}"  method="post">
+   							   <button class="btn btn-block btn-primary btn-sm">Update</button>
+							 </form>
+			             <a href="#" th:onclick="|deleteContact(${contact.Cid})|" class="btn btn-danger btn-sm btn-block">Delete</a>
+                    </div>  
+				 </div>
+			</div>
+		</div>		
+			<h1 th:unless="${contact}" class="text-centerp-3 bg-danger text-white">You don't have permission to see this contact...!!try to see your contact detail with valid user id.</h1>
+	</section>
+  </body>
+</html>

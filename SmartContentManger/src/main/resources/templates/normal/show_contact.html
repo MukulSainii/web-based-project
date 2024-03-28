@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{normal/base::Layout(~{::section})}">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+
+
+    <title>contact detail</title>
+  </head>
+  <body>
+    <section>
+	
+		<div class="card mr-3 ml-3"  >
+			<div class="card-body" >
+				<h1 class="text-center">Your Contacts</h1>
+				
+				<!--search functionallity-->
+				<div class="search-container my-3">
+					<input onkeyup="search()" id="search-input"  type="text" class="form-control" placeholder="Enter your contact here" >
+					<div class="search-result">
+						<!--result goes here-->
+						<h2>this is search result</h2>
+					</div>
+				</div>
+				<div class="table-responsive">
+				 <table class="table table-hover">
+					  <thead>
+					    <tr>
+					      <th scope="col">#ID</th>
+					      <th scope="col">Name</th>
+					      <th scope="col">Email</th>
+					      <th scope="col">Phone</th>
+					      <th scope="col">Action</th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					    <tr th:each="c:  ${contacts}">
+					      <th scope="row" th:text="${'SCM2020'+c.Cid}">1</th>
+					      <!--show image from folder to client on server-->
+					      <td >
+							  <img src="" class="my_profile_picture" th:src="@{'/Image/'+${c.image}}" alt="profile photo"/>
+							  <span th:text="${c.name}"></span>
+						  </td>
+					      <td >
+							  <a href="" th:href="@{'/user/contact/'+${c.Cid}}">
+								   <span th:text="${c.email}"></span>
+							  </a>
+				          </td>
+					      <td th:text="${c.phone}">@mdo</td>
+					      <td>
+							 <form  th:action="@{'/user/update_contact/'+${c.Cid}}"  method="post">
+   							   <button class="btn btn-primary btn-sm">Update</button>
+							 </form>
+				             <a  href="#" th:onclick="|deleteContact(${c.Cid})|" class="btn btn-danger btn-sm" style="margin-top: 5px;">Delete</a>  
+						  </td>
+					    </tr>
+					  
+					  </tbody>
+				 </table>
+			 </div> 
+				 <!--pagination-->
+				 <nav aria-label="Page navigation example">
+					  <ul class="pagination">
+					    
+    				    <!--jab ham first page to ho tab next page pe jane ka button show na ho(mean jab first page ==0 ho jaye tab condition false ho jaye or ye line hide ho jaye-->
+					    <li th:if="${currentPage!= 0}" class="page-item"><a th:href="@{'/user/show_contact/'+${currentPage-1}}" class="page-link" href="#">Previous</a></li>
+					    
+					    <!--classappend :-jo page active hoga use highlight krega,, each:- 1 se total kitne page h,utne loop chlega or i me store krega, then i ko show krega span tag,or href use page ka url dynamicall create krega-->
+					    <li th:classappend="${currentPage==i-1?'active':''}" th:each="i:${#numbers.sequence(1,totalPages)}" class="page-item"><a th:href="@{'/user/show_contact/'+${i-1}}" class="page-link" href="#"><span th:text="${i}"></span></a></li>
+					    
+					    <!--jab ham last page to ho tab next page pe jane ka button show na ho(mean jab total page ==last page ho jaye tab condition false ho jaye or ye line hide ho jaye-->
+					    <li th:if="${currentPage+1!= totalPages}" class="page-item"><a th:href="@{'/user/show_contact/'+${currentPage+1}}" class="page-link" href="#">Next</a></li>
+					  </ul>
+				 </nav>
+			</div>
+		</div>
+
+	  <script>
+		 $(document).ready(()=>{
+			$(".item").removeClass("active");
+			$("#contact-link").addClass("active");
+		 });
+	   </script>
+	</section>
+  </body>
+</html>
